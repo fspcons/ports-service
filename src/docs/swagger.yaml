@@ -1,0 +1,127 @@
+definitions:
+  domain.Port:
+    properties:
+      alias:
+        items:
+          type: string
+        type: array
+      city:
+        type: string
+      code:
+        type: string
+      coordinates:
+        items:
+          type: number
+        type: array
+      country:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      province:
+        type: string
+      regions:
+        items:
+          type: string
+        type: array
+      timezone:
+        type: string
+      unlocs:
+        items:
+          type: string
+        type: array
+    type: object
+  port.Update:
+    properties:
+      alias:
+        items:
+          type: string
+        type: array
+      city:
+        type: string
+      code:
+        type: string
+      coordinates:
+        items:
+          type: number
+        type: array
+      country:
+        type: string
+      name:
+        type: string
+      province:
+        type: string
+      regions:
+        items:
+          type: string
+        type: array
+      timezone:
+        type: string
+      unlocs:
+        items:
+          type: string
+        type: array
+    type: object
+info:
+  contact: {}
+  description: API to manage Ports data.
+  title: Ports REST API
+  version: "1.0"
+paths:
+  /v1/port:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Port data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Port'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Port'
+        "400":
+          description: invalid request body format
+        "422":
+          description: informed record already exists
+      summary: Creates a new port
+      tags:
+      - port
+  /v1/port/{id}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID of the port to update
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Port data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/port.Update'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Port'
+        "400":
+          description: invalid request data
+        "404":
+          description: no records were found
+      summary: Updates a port by id
+      tags:
+      - port
+swagger: "2.0"
