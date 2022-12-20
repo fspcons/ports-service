@@ -64,7 +64,7 @@ func (ref *uc) CheckOnFile(_ context.Context, _ *domain.Port) error {
 	}
 
 	//TODO From here forward I'd most likely run a Regex check or a similar method, trying to find the port ID as the KEY
-	// among the json file records. I believe this would perform better then trying to unmarshall the json records from the file.
+	// among the json file records. I believe this would perform better than trying to unmarshall the json records from the file.
 	// In case I find it I'd check to see if the user provided data matches and would return a NIL error.
 	// Otherwise I'd return some error saying that the Port record provided is invalid or something of the sorts.
 	// Additionally if I could assume the keys on the files are alphabetical I could use a binary search method instead of a linear one.
