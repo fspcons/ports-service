@@ -67,7 +67,8 @@ func (ref *uc) CheckOnFile(_ context.Context, _ *domain.Port) error {
 	// among the json file records. I believe this would perform better than trying to unmarshall the json records from the file.
 	// In case I find it I'd check to see if the user provided data matches and would return a NIL error.
 	// Otherwise I'd return some error saying that the Port record provided is invalid or something of the sorts.
-	// Additionally if I could assume the keys on the files are alphabetical I could use a binary search method instead of a linear one.
+	// Additionally if I could assume the keys on the file are alphabetical I could use a binary search method instead of a linear one,
+	// and I could also suggest a file partitioning system based on the keys so I could have smaller files and a smarter search mechanic in that case.
 
 	return nil
 }
