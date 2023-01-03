@@ -27,7 +27,6 @@ func (ref *uc) handle(err error) error {
 
 // CheckOnFile if the port record exists on the json file
 func (ref *uc) CheckOnFile(_ context.Context, _ *domain.Port) error {
-
 	f, err := os.Open(ref.portFilePath)
 	if err != nil {
 		ref.logger.Error("failed to open ports file", zap.Error(err))
@@ -52,11 +51,11 @@ func (ref *uc) CheckOnFile(_ context.Context, _ *domain.Port) error {
 		buf = buf[:n]
 		_ = buf //avoid lint errors
 		if n == 0 {
-			if err != nil {
-				ref.logger.Error("failed to read a file chunk into the buffer", zap.Error(err))
+			if err == io.EOF {
 				break
 			}
-			if err == io.EOF {
+			if err != nil {
+				ref.logger.Error("failed to read a file chunk into the buffer", zap.Error(err))
 				break
 			}
 			return err
