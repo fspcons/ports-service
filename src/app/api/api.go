@@ -34,7 +34,7 @@ func BuildAPI(logger *zap.Logger, portUC port.UseCase) *echo.Echo {
 	})
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
-	handlers.AddPortHandlers(e, portUC)
+	handlers.RegisterPortHandlers(e, portUC)
 
 	return e
 }
