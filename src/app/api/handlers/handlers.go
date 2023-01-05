@@ -9,16 +9,17 @@ import (
 )
 
 var (
-	msgInvalidFormat = "invalid request body format"
-	msgInvalidData   = "invalid request data"
+	MsgInvalidFormat = "invalid request body format"
+	MsgInvalidData   = "invalid request data"
 )
 
-func AddPortHandlers(e *echo.Echo, uc port.UseCase) {
-	e.POST("/v1/port", postPortHandler(uc))
+func RegisterPortHandlers(e *echo.Echo, uc port.UseCase) {
+	e.POST("/v1/port", PostPort(uc))
 	//using Patch here because on the useCase I'm checking for fields to update the record
-	e.PATCH("/v1/port/:id", updatePortHandler(uc))
+	e.PATCH("/v1/port/:id", UpdatePort(uc))
 }
 
+// PostPort
 // @Router   /v1/port [post]
 // @Summary  Creates a new port
 // @Tags     port
@@ -28,11 +29,11 @@ func AddPortHandlers(e *echo.Echo, uc port.UseCase) {
 // @Produce  json
 // @Failure  400  "invalid request body format"
 // @Failure  422  "informed record already exists"
-func postPortHandler(uc port.UseCase) echo.HandlerFunc {
+func PostPort(uc port.UseCase) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		p := new(domain.Port)
 		if err := c.Bind(p); err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, msgInvalidFormat)
+			return echo.NewHTTPError(http.StatusBadRequest, MsgInvalidFormat)
 		}
 		err := uc.Create(c.Request().Context(), p)
 		if err != nil {
@@ -42,6 +43,7 @@ func postPortHandler(uc port.UseCase) echo.HandlerFunc {
 	}
 }
 
+// UpdatePort
 // @Router   /v1/port/{id} [patch]
 // @Summary  Updates a port by id
 // @Tags     port
@@ -52,11 +54,11 @@ func postPortHandler(uc port.UseCase) echo.HandlerFunc {
 // @Produce  json
 // @Failure  400  "invalid request data"
 // @Failure  404  "no records were found"
-func updatePortHandler(uc port.UseCase) echo.HandlerFunc {
+func UpdatePort(uc port.UseCase) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 		if utils.IsEmpty(id) {
-			return echo.NewHTTPError(http.StatusBadRequest, msgInvalidData)
+			return echo.NewHTTPError(http.StatusBadRequest, MsgInvalidData)
 		}
 		u := new(port.Update)
 		if err := c.Bind(u); err != nil {

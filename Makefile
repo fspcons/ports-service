@@ -1,5 +1,5 @@
 run:
-	env PORTS_FILE_PATH=.data/ports.json go run ./src/main.go
+	env PORTS_FILE_PATH=./data/ports.json go run ./src/main.go
 test:
 	chmod a+x ./tests.sh && ./tests.sh
 run-docker:

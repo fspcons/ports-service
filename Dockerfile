@@ -6,11 +6,13 @@ RUN env GOOS=linux go build -ldflags='-s -w' -o /var/app/bin/app /var/app/src/ma
 
 
 ## Runtime image
-FROM golang:1.19-alpine AS runtime
+FROM alpine:latest AS runtime
 
 COPY --from=build /var/app/bin/app /usr/local/bin/app
 COPY --from=build /var/app/data/ports.json /usr/local/bin/ports.json
 
-ENV PORTS_FILE_PATH=./ports.json
+ENV PORTS_FILE_PATH=/usr/local/bin/ports.json
+
+EXPOSE 8080
 
 ENTRYPOINT [ "/usr/local/bin/app" ]
