@@ -1,0 +1,14 @@
+version: "3.5"
+
+services:
+  backend:
+    build:
+      dockerfile: Dockerfile
+    hostname: ports-service
+    container_name: ports_service
+    volumes:
+      - $PWD/..:/var/app
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      REST_ADDRESS: :8080
