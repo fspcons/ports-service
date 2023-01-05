@@ -6,6 +6,7 @@ import (
 	"github.com/fspcons/ports-service/src/app/api"
 	"github.com/fspcons/ports-service/src/config"
 	_ "github.com/fspcons/ports-service/src/docs"
+	"github.com/fspcons/ports-service/src/gateway/file"
 	"github.com/fspcons/ports-service/src/gateway/ports"
 	"github.com/fspcons/ports-service/src/usecases/port"
 	"go.uber.org/dig"
@@ -41,8 +42,9 @@ func buildDIC(ctx context.Context) *dig.Container {
 	mustProvide(di, func() *zap.Logger { return logger })
 	mustProvide(di, config.ReadFromEnv)
 
-	//gateway
+	//gateways
 	mustProvide(di, ports.NewInMemoryGateway)
+	mustProvide(di, file.NewFileGateway)
 	//useCases
 	mustProvide(di, port.NewUseCase)
 	//API
